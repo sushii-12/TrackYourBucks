@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ===========================
+     MAIN SUMMARY CARD
+=========================== -->
+<div class="tyb-card tyb-main-card mb-4">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center w-100">
+
+    <!-- LEFT: Month Display -->
+    <div class="mb-3 mb-md-0">
+
+      <!-- Softer label -->
+      <div class="tyb-main-label mb-1"
+           style="font-size:1.05rem; color:rgba(255,255,255,0.55); font-weight:600;">
+        This Month
+      </div>
+
+      <!-- Bold month name -->
+      <h2 class="month-text"
+          style="font-size:1.90rem; font-weight:500; color:#f0f4ff; margin:0;">
+        {{ header_display_month }}
+      </h2>
+    </div>
+
+    <!-- RIGHT: Income / Expense / Balance -->
+    <div class="row text-md-end g-3 w-100">
+
+      <div class="col-md-4">
+        <div class="tyb-main-label" style="font-size:1.1rem;">Total Income</div>
+        <div class="tyb-main-value text-success" style="font-size:1.5rem; font-weight:800;">
+          {{ total_income }}
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="tyb-main-label" style="font-size:1.1rem;">Total Expense</div>
+        <div class="tyb-main-value text-danger" style="font-size:1.5rem; font-weight:800;">
+          {{ total_expense }}
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="tyb-main-label" style="font-size:1.1rem;">Balance</div>
+        <div class="tyb-main-balance text-info" style="font-size:1.6rem; font-weight:900;">
+          {{ balance }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ===========================
+     ACTION CARDS
+=========================== -->
+<div class="mt-2" id="actionsSection">
+  <div class="row g-4">
+
+    <!-- ADD TRANSACTION -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <a href="{{ url_for('add_transaction') }}" class="tyb-action-link">
+        <div class="tyb-card tyb-action-card">
+          <div>
+            <div class="tyb-action-title">Add Transaction</div>
+            <div class="tyb-action-sub">Log income or expense in seconds.</div>
+          </div>
+          <div class="mt-3">
+            <i class="bi bi-plus-circle"
+               style="color:#39ff14; font-size:20px;"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- MONTHLY SUMMARY -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <a href="{{ url_for('summary') }}" class="tyb-action-link">
+        <div class="tyb-card tyb-action-card">
+          <div>
+            <div class="tyb-action-title">Monthly Summary</div>
+            <div class="tyb-action-sub">Check how you are doing this month.</div>
+          </div>
+          <div class="mt-3">
+            <i class="bi bi-graph-up-arrow"
+               style="color:#ffd43b; font-size:20px;"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- VIEW ALL -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <a href="{{ url_for('transactions') }}" class="tyb-action-link">
+        <div class="tyb-card tyb-action-card">
+          <div>
+            <div class="tyb-action-title">View All</div>
+            <div class="tyb-action-sub">Scroll through your full history.</div>
+          </div>
+          <div class="mt-3">
+            <i class="bi bi-list-ul"
+               style="color:#00eaff; font-size:20px;"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- EXPORT CSV -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <a href="{{ url_for('export_csv') }}" class="tyb-action-link">
+        <div class="tyb-card tyb-action-card">
+          <div>
+            <div class="tyb-action-title">Export CSV</div>
+            <div class="tyb-action-sub">Open everything in Excel or Sheets.</div>
+          </div>
+          <div class="mt-3">
+            <i class="bi bi-file-earmark-spreadsheet"
+               style="color:#39ff14; font-size:20px;"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

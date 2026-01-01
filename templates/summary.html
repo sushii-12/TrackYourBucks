@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row g-4">
+  <!-- Left: form to choose month -->
+  <div class="col-md-4">
+    <div class="tyb-card tyb-main-card">
+      <h5 class="mb-3 text-light">Monthly Summary</h5>
+      <p class="mb-4" style="color:#32ff7e;">
+        Pick a year and month to see how your bucks behaved
+      </p>
+
+      <form method="post">
+        <div class="mb-3">
+          <label class="form-label">Year (YYYY)</label>
+          <input
+            type="text"
+            class="form-control"
+            name="year"
+            value="{{ year }}"
+            placeholder="2025"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Month (MM)</label>
+          <input
+            type="text"
+            class="form-control"
+            name="month"
+            value="{{ month }}"
+            placeholder="05"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mt-2">
+          Show Summary
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right: summary result -->
+  <div class="col-md-8">
+    {% if data %}
+      <div class="tyb-card tyb-main-card mb-4">
+        <h5 class="mb-3 text-light">Summary for {{ month_name }} {{ year }}</h5>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="tyb-main-label">Total Income</div>
+            <div class="tyb-main-value text-success">{{ data.total_income }}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="tyb-main-label">Total Expense</div>
+            <div class="tyb-main-value text-danger">{{ data.total_expense }}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="tyb-main-label">Balance</div>
+            <div class="tyb-main-balance text-info">{{ data.balance }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly transactions table (same style as "View All") -->
+      {% if rows %}
+        <div class="tyb-card p-0 neon-table-card">
+          <div class="table-responsive">
+            <table class="table neon-table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in rows %}
+                  <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.date }}</td>
+                    <td>
+                      {% if row.type == 'income' %}
+                        <span class="badge badge-pill badge-income">Income</span>
+                      {% else %}
+                        <span class="badge badge-pill badge-expense">Expense</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ row.category }}</td>
+                    <td>{{ row.amount }}</td>
+                    <td class="text-truncate" style="max-width: 260px;">{{ row.note }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% else %}
+        <div class="tyb-card tyb-main-card">
+          <p class="mb-4" style="color:#32ff7e;">
+            No transactions recorded for this month.
+          </p>
+        </div>
+      {% endif %}
+
+    {% else %}
+      <div class="tyb-card tyb-main-card">
+        <p class="mb-4" style="color:#32ff7e;">
+          Choose a month on the left to view income, expense and balance here
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

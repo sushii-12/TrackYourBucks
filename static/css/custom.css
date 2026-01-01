@@ -1,0 +1,362 @@
+a, a:visited {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.table,
+.table * {
+  background-color: transparent !important;
+  color: inherit !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* ============================================
+   ROOT VARIABLES
+============================================ */
+:root {
+  --neon-green: #39ff14;
+  --neon-blue: rgba(59,130,246,0.28);
+  --bg-1: #0f1720;
+  --bg-2: #020617;
+  --muted: #9ca3af;
+}
+
+/* ============================================
+   BASE PAGE
+============================================ */
+html, body {
+  height: 100%;
+  margin: 0;
+  scroll-behavior: smooth;
+  background: radial-gradient(circle at top left, var(--bg-1), var(--bg-2) 45%, #000 100%);
+  color: #e6eef6;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+main.container {
+  animation: fadeIn .35s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   HEADER
+============================================ */
+.tyb-header {
+  background: linear-gradient(90deg, rgba(2,6,23,.95), rgba(4,6,15,.95));
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 28px rgba(0,0,0,.75);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.tyb-title {
+  font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+  font-weight: 900;
+  color: #f8fafc;
+  text-transform: uppercase;
+}
+
+.tyb-sub {
+  font-size: 0.95rem;
+  color: var(--neon-green) !important;
+}
+
+.btn-ghost {
+  padding: .46rem .7rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 10px;
+  color: #dbeafe;
+  font-size: .95rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(2,6,23,.6);
+  transition: .2s;
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59,130,246,0.16);
+}
+
+/* ============================================
+   CARDS
+============================================ */
+.tyb-card {
+  position: relative;
+  padding: 1.6rem 1.4rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.02);
+  background: linear-gradient(180deg, rgba(12,17,23,.55), rgba(2,6,18,.45));
+  box-shadow: 0 18px 40px rgba(0,0,0,.7);
+  backdrop-filter: blur(8px);
+  transition: .22s ease;
+}
+
+.tyb-card:hover {
+  transform: translateY(-4px);
+}
+
+.tyb-card.card-glow {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(59,130,246,.16);
+  box-shadow: 0 30px 70px rgba(2,6,23,.75),
+              0 6px 26px rgba(59,130,246,.06);
+  z-index: 5;
+}
+
+.tyb-card.card-glow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 320px;
+  height: 160px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(59,130,246,.10), rgba(59,130,246,.04) 30%, transparent 60%);
+  border-radius: 50%;
+  filter: blur(18px);
+  opacity: .9;
+  pointer-events: none;
+}
+
+@media(max-width:768px) {
+  .tyb-card.card-glow::after {
+    width: 220px;
+    height: 120px;
+    filter: blur(12px);
+  }
+}
+
+/* ============================================
+   ACTION CARDS (Fix Blue Text)
+============================================ */
+.tyb-action-link {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+}
+
+.tyb-action-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white !important;
+}
+
+.tyb-action-sub {
+  font-size: 0.9rem;
+  color: #9ca3af !important;
+}
+/* ============================================
+   MONTH DISPLAY 
+============================================ */
+.month-display, .month-display * {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.month-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #e5e7eb;
+}
+
+/* ============================================
+   AVG DAILY SPEND
+============================================ */
+.avg-chip {
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-align: right;
+}
+
+.avg-label {
+  color: white !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.avg-value {
+  color: var(--neon-green);
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+/* ============================================
+   INPUT FIELDS (Dark Theme)
+============================================ */
+input.form-control,
+select.form-select,
+textarea.form-control {
+  background: #0f1624 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #e5e7eb !important;
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: .25s;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  background: #131b2b !important;
+  border-color: #39ff1444 !important;
+  box-shadow: 0 0 8px rgba(57,255,20,0.25) !important;
+  color: white !important;
+}
+
+select.form-select {
+  color-scheme: dark;
+}
+
+/* ============================================
+   NEON TABLE 
+============================================ */
+.neon-table-card {
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: linear-gradient(180deg, rgba(6,8,12,.55), rgba(4,6,10,.40));
+  box-shadow: 0 18px 40px rgba(0,0,0,.6);
+}
+
+table.neon-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #d8f6ff;
+}
+
+table.neon-table thead th {
+  background: rgba(255,255,255,0.03) !important;
+  padding: 14px 18px;
+  color: #eaf8ff !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+table.neon-table tbody tr {
+  background: rgba(12,18,30,0.22) !important;
+  transition: .16s;
+}
+
+table.neon-table tbody tr:hover {
+  background: rgba(12,18,30,0.45) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(6,18,50,0.25);
+}
+
+table.neon-table td {
+  padding: 12px 18px;
+  color: rgba(220,245,255,0.92) !important;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+table.neon-table td:nth-child(5) {
+  font-weight: 700;
+  color: #bfefff !important;
+}
+
+table.neon-table td.text-truncate {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   BADGES
+============================================ */
+.badge {
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.badge-income {
+  background: linear-gradient(90deg,#10b981,#06b68f);
+  color: #04291c;
+}
+
+.badge-expense {
+  background: linear-gradient(90deg,#ef4444,#d9466f);
+  color: white;
+}
+
+/* ============================================
+   CLICK GLOW
+============================================ */
+.click-glow {
+    position: fixed;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle at center, rgba(59,130,246,0.55), transparent 70%);
+    transform: translate(-50%, -50%) scale(0.7);
+    animation: glowFixed 0.45s ease-out forwards;
+    z-index: 9999;
+}
+
+@keyframes glowFixed {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+}
+
+a, a:visited {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+/* Bigger dashboard metric labels */
+.tyb-main-label {
+    font-size: 1.05rem !important;
+}
+
+/* Bigger main values (Income, Expense, Balance) */
+.tyb-main-value {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+}
+
+.tyb-main-balance {
+    font-size: 1.65rem !important;
+    font-weight: 800 !important;
+}
+.month-display .tyb-main-label {
+    font-size: 1.15rem !important;
+}
+
+.month-display .month-text {
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+}

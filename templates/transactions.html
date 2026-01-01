@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-3 d-flex justify-content-between align-items-center">
+  <div>
+    <h4 class="mb-1 text-light">All Transactions</h4>
+    <p class="mb-4" style="color:#32ff7e;">
+      Scroll through everything you’ve logged so far
+    </p>
+  </div>
+</div>
+
+{% if rows %}
+  <div class="tyb-card p-0 neon-table-card">
+    <div class="table-responsive">
+      <table class="table neon-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">Type</th>
+            <th scope="col">Category</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <td>{{ row.id }}</td>
+              <td>{{ row.date }}</td>
+              <td>
+                {% if row.type == 'income' %}
+                  <span class="badge badge-pill badge-income">Income</span>
+                {% else %}
+                  <span class="badge badge-pill badge-expense">Expense</span>
+                {% endif %}
+              </td>
+              <td>{{ row.category }}</td>
+              <td>{{ row.amount }}</td>
+              <td class="text-truncate" style="max-width: 260px;">
+                {{ row.note }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% else %}
+  <div class="tyb-card tyb-main-card">
+    <p class="mb-4" style="color:#32ff7e;">
+      No transactions yet. Start by adding your first one
+    </p>
+  </div>
+{% endif %}
+{% endblock %}
+
+
