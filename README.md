@@ -17,6 +17,6 @@ A clean, modern expense tracker built with Flask and SQLite.
 
 ## How to Run Locally
 ```bash
-git clone https://github.com/your-username/trackyourbucks
+git clone https://github.com/sushii-12/TrackYourBucks
 cd trackyourbucks
 python app.py

@@ -130,6 +130,31 @@ def index():
     )
     total_expense = float(cur.fetchone()[0] or 0.0)
 
+    # Expense by category (Current Month)
+    cur.execute(
+        "SELECT category, SUM(amount) FROM transactions WHERE type='expense' AND date LIKE ? GROUP BY category",
+        (pattern,),
+    )
+    expense_by_category = cur.fetchall()
+    category_labels = [row[0] for row in expense_by_category]
+    category_values = [float(row[1]) for row in expense_by_category]
+
+    # Monthly Spending Trend (All Time)
+    cur.execute(
+        "SELECT substr(date, 1, 7) as month, SUM(amount) FROM transactions WHERE type='expense' GROUP BY month ORDER BY month ASC"
+    )
+    trend_by_month = cur.fetchall()
+    
+    trend_labels = []
+    for row in trend_by_month:
+        try:
+            m_dt = datetime.strptime(row[0], "%Y-%m")
+            trend_labels.append(m_dt.strftime("%B %Y"))
+        except ValueError:
+            trend_labels.append(row[0])
+
+    trend_values = [float(row[1]) for row in trend_by_month]
+
     conn.close()
 
     balance = total_income - total_expense
@@ -139,6 +164,10 @@ def index():
         total_income=total_income,
         total_expense=total_expense,
         balance=balance,
+        category_labels=category_labels,
+        category_values=category_values,
+        trend_labels=trend_labels,
+        trend_values=trend_values,
     )
 
 
@@ -208,6 +237,17 @@ def transactions():
     rows = cur.fetchall()
     conn.close()
     return render_template("transactions.html", rows=rows)
+
+
+@app.route("/delete/<int:id>", methods=["POST"])
+def delete_transaction(id):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM transactions WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    flash("Transaction deleted successfully!", "success")
+    return redirect(request.referrer or url_for("index"))
 
 
 @app.route("/summary", methods=["GET", "POST"])

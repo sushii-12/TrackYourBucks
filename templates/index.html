@@ -127,4 +127,242 @@
   </div>
 </div>
 
+<!-- ===========================
+     ANALYTICS CHARTS
+=========================== -->
+<div class="mt-4" id="chartsSection">
+  <!-- Row 1: Bar Chart & Pie Chart -->
+  <div class="row g-4 mb-4">
+    <!-- Bar Chart -->
+    <div class="col-12 col-lg-8">
+      <div class="tyb-card h-100">
+        <div class="tyb-action-title mb-3">Income vs Expense vs Balance</div>
+        <div style="position: relative; height: 300px; width: 100%;">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Pie Chart -->
+    <div class="col-12 col-lg-4">
+      <div class="tyb-card h-100">
+        <div class="tyb-action-title mb-3">Expense by Category</div>
+        <div style="position: relative; height: 300px; width: 100%;">
+          {% if category_labels|length > 0 %}
+          <canvas id="pieChart"></canvas>
+          {% else %}
+          <div class="d-flex h-100 align-items-center justify-content-center">
+            <span class="text-muted" style="color: rgba(255,255,255,0.5) !important;">No expenses this month.</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Line Graph -->
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="tyb-card">
+        <div class="tyb-action-title mb-3">Monthly Spending Trend</div>
+        <div style="position: relative; height: 350px; width: 100%;">
+          {% if trend_labels|length > 0 %}
+          <canvas id="lineChart"></canvas>
+          {% else %}
+          <div class="d-flex h-100 align-items-center justify-content-center">
+            <span class="text-muted" style="color: rgba(255,255,255,0.5) !important;">No data available for trend.</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Chart default configuration for dark theme
+  Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
+  Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", Roboto, Arial';
+  
+  // Data from backend
+  const totalIncome = {{ total_income|tojson }};
+  const totalExpense = {{ total_expense|tojson }};
+  const balance = {{ balance|tojson }};
+  
+  const categoryLabels = {{ category_labels|tojson }};
+  const categoryValues = {{ category_values|tojson }};
+  
+  const trendLabels = {{ trend_labels|tojson }};
+  const trendValues = {{ trend_values|tojson }};
+
+  // 1. Bar Chart: Income vs Expense vs Balance
+  const ctxBar = document.getElementById('barChart');
+  if (ctxBar) {
+    new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: ['Income', 'Expense', 'Balance'],
+        datasets: [{
+          label: 'Amount',
+          data: [totalIncome, totalExpense, balance],
+          backgroundColor: [
+            'rgba(57, 255, 20, 0.6)',   // fluorescent green
+            'rgba(239, 68, 68, 0.6)',   // red/pink
+            'rgba(0, 234, 255, 0.6)'    // cyan/light blue
+          ],
+          borderColor: [
+            'rgba(57, 255, 20, 1)',
+            'rgba(239, 68, 68, 1)',
+            'rgba(0, 234, 255, 1)'
+          ],
+          borderWidth: 1,
+          borderRadius: 6,
+          hoverBackgroundColor: [
+            'rgba(57, 255, 20, 0.8)',
+            'rgba(239, 68, 68, 0.8)',
+            'rgba(0, 234, 255, 0.8)'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeOutQuart'
+        }
+      }
+    });
+  }
+
+  // 2. Pie Chart: Expense Category
+  const ctxPie = document.getElementById('pieChart');
+  if (ctxPie) {
+    const pieColors = [
+      'rgba(57, 255, 20, 0.7)',   // neon green
+      'rgba(0, 234, 255, 0.7)',   // cyan
+      'rgba(255, 212, 59, 0.7)',  // yellow
+      'rgba(255, 62, 172, 0.7)',  // pink
+      'rgba(168, 85, 247, 0.7)',  // purple
+      'rgba(59, 130, 246, 0.7)'   // blue
+    ];
+    
+    const pieBorderColors = pieColors.map(c => c.replace('0.7', '1'));
+
+    new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: categoryLabels,
+        datasets: [{
+          data: categoryValues,
+          backgroundColor: pieColors,
+          borderColor: pieBorderColors,
+          borderWidth: 1,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: '#ffffff',
+              usePointStyle: true,
+              padding: 20,
+              font: {
+                size: 11
+              }
+            }
+          }
+        },
+        animation: {
+          duration: 1200,
+          easing: 'easeOutQuart'
+        }
+      }
+    });
+  }
+
+  // 3. Monthly Spending Trend Line Graph
+  const ctxLine = document.getElementById('lineChart');
+  if (ctxLine) {
+    const gradient = ctxLine.getContext('2d').createLinearGradient(0, 0, 0, 350);
+    gradient.addColorStop(0, 'rgba(57, 255, 20, 0.25)');
+    gradient.addColorStop(1, 'rgba(57, 255, 20, 0.0)');
+
+    new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: trendLabels,
+        datasets: [{
+          label: 'Total Expense',
+          data: trendValues,
+          borderColor: 'rgba(57, 255, 20, 1)', // Neon green
+          backgroundColor: gradient,
+          borderWidth: 3,
+          pointBackgroundColor: '#0f1720',
+          pointBorderColor: 'rgba(57, 255, 20, 1)',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          fill: true,
+          tension: 0.4 // Smooth curved line
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        }
+      }
+    });
+  }
+</script>
+
 {% endblock %}

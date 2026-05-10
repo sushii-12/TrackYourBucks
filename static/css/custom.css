@@ -29,10 +29,11 @@ a:hover {
    BASE PAGE
 ============================================ */
 html, body {
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
   scroll-behavior: smooth;
   background: radial-gradient(circle at top left, var(--bg-1), var(--bg-2) 45%, #000 100%);
+  background-attachment: fixed;
   color: #e6eef6;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }
@@ -122,7 +123,12 @@ main.container {
   width: 320px;
   height: 160px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, rgba(59,130,246,.10), rgba(59,130,246,.04) 30%, transparent 60%);
+  background: radial-gradient(
+    closest-side,
+    rgba(59,130,246,.10),
+    rgba(59,130,246,.04) 30%,
+    transparent 60%
+  );
   border-radius: 50%;
   filter: blur(18px);
   opacity: .9;
@@ -138,7 +144,7 @@ main.container {
 }
 
 /* ============================================
-   ACTION CARDS (Fix Blue Text)
+   ACTION CARDS
 ============================================ */
 .tyb-action-link {
   text-decoration: none !important;
@@ -156,10 +162,12 @@ main.container {
   font-size: 0.9rem;
   color: #9ca3af !important;
 }
+
 /* ============================================
-   MONTH DISPLAY 
+   MONTH DISPLAY
 ============================================ */
-.month-display, .month-display * {
+.month-display,
+.month-display * {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -168,9 +176,9 @@ main.container {
 }
 
 .month-text {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #e5e7eb;
+  font-size: 2rem !important;
+  font-weight: 900 !important;
+  color: #f0f4ff;
 }
 
 /* ============================================
@@ -199,7 +207,7 @@ main.container {
 }
 
 /* ============================================
-   INPUT FIELDS (Dark Theme)
+   INPUT FIELDS
 ============================================ */
 input.form-control,
 select.form-select,
@@ -212,11 +220,14 @@ textarea.form-control {
   transition: .25s;
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: rgba(255,255,255,0.35) !important;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   background: #131b2b !important;
   border-color: #39ff1444 !important;
   box-shadow: 0 0 8px rgba(57,255,20,0.25) !important;
@@ -228,7 +239,22 @@ select.form-select {
 }
 
 /* ============================================
-   NEON TABLE 
+   FIX WHITE AUTOFILL ISSUE
+============================================ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #131b2b inset !important;
+  -webkit-text-fill-color: #e5e7eb !important;
+  caret-color: #ffffff !important;
+  border-radius: 10px !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ============================================
+   NEON TABLE
 ============================================ */
 .neon-table-card {
   padding: 0;
@@ -307,56 +333,111 @@ table.neon-table td.text-truncate {
    CLICK GLOW
 ============================================ */
 .click-glow {
-    position: fixed;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    pointer-events: none;
-    background: radial-gradient(circle at center, rgba(59,130,246,0.55), transparent 70%);
-    transform: translate(-50%, -50%) scale(0.7);
-    animation: glowFixed 0.45s ease-out forwards;
-    z-index: 9999;
+  position: fixed;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    rgba(59,130,246,0.55),
+    transparent 70%
+  );
+  transform: translate(-50%, -50%) scale(0.7);
+  animation: glowFixed 0.45s ease-out forwards;
+  z-index: 9999;
 }
 
 @keyframes glowFixed {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.7);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1.4);
-    }
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.4);
+  }
 }
 
-a, a:visited {
-  color: inherit !important;
-  text-decoration: none !important;
-}
-
-a:hover {
-  text-decoration: none !important;
-}
-/* Bigger dashboard metric labels */
+/* ============================================
+   DASHBOARD METRICS
+============================================ */
 .tyb-main-label {
-    font-size: 1.05rem !important;
+  font-size: 1.05rem !important;
 }
 
-/* Bigger main values (Income, Expense, Balance) */
 .tyb-main-value {
-    font-size: 1.35rem !important;
-    font-weight: 700 !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
 }
 
 .tyb-main-balance {
-    font-size: 1.65rem !important;
-    font-weight: 800 !important;
+  font-size: 1.65rem !important;
+  font-weight: 800 !important;
 }
+
 .month-display .tyb-main-label {
-    font-size: 1.15rem !important;
+  font-size: 1.15rem !important;
 }
 
 .month-display .month-text {
-    font-size: 2rem !important;
-    font-weight: 900 !important;
+  font-size: 2rem !important;
+  font-weight: 900 !important;
+}
+/* ============================================
+   FORCE DARK AUTOFILL / ACTIVE INPUT FIX
+============================================ */
+
+input,
+textarea,
+select {
+  background-color: #0f1624 !important;
+  color: #e5e7eb !important;
+}
+
+/* Chrome autofill fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e5e7eb !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0f1624 inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+  caret-color: #ffffff !important;
+}
+
+/* Focus state */
+input:focus,
+textarea:focus,
+select:focus {
+  background-color: #131b2b !important;
+  color: #ffffff !important;
+}
+
+/* ============================================
+   DELETE BUTTON
+============================================ */
+.btn-delete {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.05);
+  color: #ff6b6b;
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.25);
+  transform: translateY(-1px);
 }
